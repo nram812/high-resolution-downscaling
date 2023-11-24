@@ -1,4 +1,9 @@
 # High-resolution downscaling with Interpretable Deep Learning
+Please remember to cite this:
+
+Rampal, N., Gibson, P. B., Sood, A., Stuart, S., Fauchereau, N. C., Brandolino, C., ... & Meyers, T. (2022). High-resolution downscaling with interpretable deep learning: Rainfall extremes over New Zealand. Weather and Climate Extremes, 38, 100525.
+
+If you use our code in any of your research. 
 
 ## Python Environment Installation 
 There shouldn't be too many challenges in getting this environment up to speed, and a conda environment file will be added shortly. 
