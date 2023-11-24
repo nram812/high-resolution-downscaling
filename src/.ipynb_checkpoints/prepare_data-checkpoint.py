@@ -56,16 +56,25 @@ def prepare_training_dataset(x_train, x_val, x_test,
     x_train_norm = (x_train - means)/stds
     x_test_norm = (x_test- means)/stds
     x_val_norm = (x_val - means)/stds
-    # format the features so that they are stacked
-    x_train_norm = format_features(x_train_norm).transpose("time","lat","lon","feature")
-    x_test_norm = format_features(x_test_norm).transpose("time","lat","lon","feature")
-    x_val_norm = format_features(x_val_norm).transpose("time","lat","lon","feature")
-    
+    try:
+        # format the features so that they are stacked
+        x_train_norm = format_features(x_train_norm).transpose("time","lat","lon","feature")
+        x_test_norm = format_features(x_test_norm).transpose("time","lat","lon","feature")
+        x_val_norm = format_features(x_val_norm).transpose("time","lat","lon","feature")
+    except ValueError:
+        x_train_norm = format_features(x_train_norm).transpose("time","latitude","longitude","feature")
+        x_test_norm = format_features(x_test_norm).transpose("time","latitude","longitude","feature")
+        x_val_norm = format_features(x_val_norm).transpose("time","latitude","longitude","feature")
+    try:
     # prepare the rainfall data
-    y_train = y_train.pr.stack(z =['lat','lon']).dropna("z")
-    y_test = y_test.pr.stack(z =['lat','lon']).dropna("z")
-    y_val= y_val .pr.stack(z =['lat','lon']).dropna("z")
-
+        y_train = y_train.stack(z =['lat','lon']).dropna("z")
+        y_test = y_test.stack(z =['lat','lon']).dropna("z")
+        y_val= y_val.stack(z =['lat','lon']).dropna("z")
+    except ValueError:
+        
+        y_train = y_train.stack(z =['latitude','longitude']).dropna("z")
+        y_test = y_test.stack(z =['latitude','longitude']).dropna("z")
+        y_val= y_val.stack(z =['latitude','longitude']).dropna("z")
     
     return x_train_norm, x_test_norm, x_val_norm, y_train, y_test, y_val
     
